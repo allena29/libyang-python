@@ -731,6 +731,8 @@ class SNode:
     ACTION = lib.LYS_ACTION
     INPUT = lib.LYS_INPUT
     OUTPUT = lib.LYS_OUTPUT
+    CHOICE = lib.LYS_CHOICE
+    CASE = lib.LYS_CASE
     KEYWORDS = {
         CONTAINER: "container",
         LEAF: "leaf",
@@ -740,6 +742,8 @@ class SNode:
         ACTION: "action",
         INPUT: "input",
         OUTPUT: "output",
+        CHOICE: "choice",
+        CASE: "case",
     }
 
     def __init__(self, context: "libyang.Context", cdata):
@@ -866,6 +870,35 @@ class SNode:
         return nodecls(context, cdata)
 
 
+# -------------------------------------------------------------------------------------
+@SNode.register(SNode.CASE)
+class SCase(SNode):
+
+    __slots__ = SNode.__slots__ + ("cdata_case",)
+
+    def __init__(self, context: "libyang.Context", cdata):
+        super().__init__(context, cdata)
+        self.cdata_case = ffi.cast("struct lys_node_case *", cdata)
+
+    def __str__(self):
+        return self.name()
+
+
+# -------------------------------------------------------------------------------------
+@SNode.register(SNode.CHOICE)
+class SChoice(SNode):
+
+    __slots__ = SNode.__slots__ + ("cdata_choice",)
+
+    def __init__(self, context: "libyang.Context", cdata):
+        super().__init__(context, cdata)
+        self.cdata_choice = ffi.cast("struct lys_node_choice *", cdata)
+
+    def __str__(self):
+        return self.name()
+
+
+# -------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------
 @SNode.register(SNode.LEAF)
 class SLeaf(SNode):

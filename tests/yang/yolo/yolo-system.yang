@@ -60,6 +60,27 @@ module yolo-system {
       type string;
     }
 
+    container mode {
+      description "A choice/case for config options which drive mutually exclusive options.";
+      choice mode-choice {
+        case case1 {
+          leaf auto-discover {
+            type enumeration {
+              enum magic;
+              enum wish;
+              enum luck;
+            }
+            mandatory true;
+          }
+        }
+        case case2 {
+          leaf-list rules {
+            type string;
+          }
+        }
+      }
+    }
+
     list url {
       description
         "An URL.";

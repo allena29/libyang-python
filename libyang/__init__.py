@@ -60,6 +60,8 @@ from .schema import (
     IfOrFeatures,
     Module,
     Revision,
+    SCase,
+    SChoice,
     SContainer,
     SLeaf,
     SLeafList,

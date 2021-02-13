@@ -12,6 +12,8 @@ from libyang import (
     LibyangError,
     Module,
     Revision,
+    SCase,
+    SChoice,
     SContainer,
     SLeaf,
     SLeafList,
@@ -198,7 +200,7 @@ class ContainerTest(unittest.TestCase):
 
     def test_cont_iter(self):
         children = list(iter(self.container))
-        self.assertEqual(len(children), 8)
+        self.assertEqual(len(children), 9)
 
     def test_cont_children_leafs(self):
         leafs = list(self.container.children(types=(SNode.LEAF,)))
@@ -370,3 +372,13 @@ class LeafTypeTest(unittest.TestCase):
         self.assertIsNotNone(parent)
         self.assertIsInstance(parent, SList)
         self.assertEqual(parent.name(), "url")
+
+    def test_choice_case(self):
+        xpath = "/yolo-system:conf/yolo-system:mode/yolo-system:mode-choice"
+        choice = next(self.ctx.find_path(xpath))
+        self.assertIsInstance(choice, SChoice)
+        self.assertEqual(choice.name(), "mode-choice")
+
+        case = next(self.ctx.find_path(xpath + "/yolo-system:case1"))
+        self.assertIsInstance(case, SCase)
+        self.assertEqual(case.name(), "case1")
