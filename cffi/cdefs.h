@@ -276,6 +276,14 @@ struct lys_node {
 	...;
 };
 
+struct lys_node_case {
+	...;
+};
+
+struct lys_node_choice {
+	...;
+};
+
 struct lys_node_container {
 	uint8_t must_size;
 	struct lys_restr *must;
